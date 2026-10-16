@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tekst-samenvatter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Tekst-samenvatter</h1>
+    <p>Plak een lange tekst of upload een .txt-bestand. De AI maakt er een samenvatting van.</p>
+
+    <form method="post" enctype="multipart/form-data">
+        <label for="tekst">Tekst:</label><br>
+        <textarea id="tekst" name="tekst" rows="12">{{ tekst }}</textarea><br>
+
+        <label for="bestand">Of upload een .txt-bestand:</label>
+        <input type="file" id="bestand" name="bestand" accept=".txt"><br><br>
+
+        <label for="soort">Soort samenvatting:</label>
+        <select id="soort" name="soort">
+            <option value="kort" {% if soort == "kort" %}selected{% endif %}>Kort (3 zinnen)</option>
+            <option value="hoofdpunten" {% if soort == "hoofdpunten" %}selected{% endif %}>Hoofdpunten</option>
+            <option value="uitgebreid" {% if soort == "uitgebreid" %}selected{% endif %}>Uitgebreid</option>
+            <option value="actiepunten" {% if soort == "actiepunten" %}selected{% endif %}>Actiepunten en deadlines</option>
+        </select>
+
+        <button type="submit">Samenvatten</button>
+    </form>
+
+    {% if fout %}
+        <p class="fout">{{ fout }}</p>
+    {% endif %}
+
+    {% if samenvatting %}
+        <h2>Samenvatting</h2>
+        <p class="info">Originele tekst: {{ aantal_woorden }} woorden</p>
+        <div class="resultaat">{{ samenvatting }}</div>
+    {% endif %}
+</body>
+</html>
